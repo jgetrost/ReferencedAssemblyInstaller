@@ -19,6 +19,9 @@ namespace WebApp.Installers
 
             List<IInstaller> _installers = new List<IInstaller>();
 
+            _installers.AddRange(typeof(Startup).Assembly.ExportedTypes.Where(x =>
+                typeof(IInstaller).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).Select(Activator.CreateInstance).Cast<IInstaller>().ToList());
+
             foreach(AssemblyName _referencedAssembly in _referencedAssemblies)
             {
                 _installers.AddRange(Assembly.Load(_referencedAssembly).ExportedTypes.Where(t => typeof(IInstaller).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract).Select(Activator.CreateInstance).Cast<IInstaller>().ToList());
