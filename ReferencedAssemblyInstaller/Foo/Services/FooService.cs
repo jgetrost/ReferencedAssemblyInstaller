@@ -6,9 +6,15 @@ namespace Foo.Services
 {
     public class FooService
     {
+        private readonly FooConfig _fooConfig;
+
+        public FooService(FooConfig fooConfig)
+        {
+            this._fooConfig = fooConfig;
+        }
         public string Print()
         {
-            return "Foo";
+            return this._fooConfig.Foo;
         }
     }
 }
